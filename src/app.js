@@ -3,6 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 
+const log = require("./utils/logger");
+
 const app = express();
 
 app.use(express.json());
@@ -18,5 +20,5 @@ app.get("/healthcheck", async (req, res) => {
 });
 
 app.listen(port, async () => {
-  console.log(`App is listening on port ${port}`);
+  log.info(`App is listening on port ${port}`);
 });
