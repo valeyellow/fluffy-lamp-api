@@ -5,9 +5,9 @@ const helmet = require("helmet");
 const dotenv = require("dotenv");
 
 // import internal modules
-
 const logger = require("./utils/logger");
 const connect = require("./utils/connect");
+const routes = require("./routes");
 
 const app = express();
 
@@ -28,5 +28,7 @@ app.listen(port, async () => {
   logger.info(`App is listening on port ${port}`);
 
   // connect to db
-  connect();
+  await connect();
+
+  routes(app);
 });
