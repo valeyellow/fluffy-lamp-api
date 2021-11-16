@@ -6,6 +6,9 @@ dotenv.config();
 
 const dbUri = process.env.DB_URI;
 
+/**
+ * Invokes the mongoose.connect function to establish connection to the DB
+ */
 const connect = async () => {
   try {
     await mongoose.connect(dbUri);
