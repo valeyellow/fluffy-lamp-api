@@ -11,6 +11,15 @@ const createUser = async (userDetails) => {
   }
 };
 
+const findUser = async (query) => {
+  try {
+    return UserModel.findOne(query);
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 module.exports = {
   createUser,
+  findUser,
 };
