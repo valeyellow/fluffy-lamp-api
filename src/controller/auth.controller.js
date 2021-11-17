@@ -1,4 +1,7 @@
 const otpGenerator = require("otp-generator");
+const dotenv = require("dotenv");
+
+const { signJwt } = require("../utils/jwt.utils");
 const logger = require("../utils/logger");
 const {
   findEmail,
@@ -9,6 +12,10 @@ const {
 } = require("../service/auth.service");
 const { findUser } = require("../service/user.service");
 const { getOtpExpiry, sendOtpToMail } = require("../utils/auth.utils");
+
+dotenv.config();
+
+const accessTokenTtl = process.env.ACCESS_TOKEN_TTL;
 
 const generateOtpHandler = async (req, res) => {
   try {
@@ -47,7 +54,7 @@ const verifyOtpHandler = async (req, res) => {
   // if otp is not found in DB, return 404
   // check if otp.email === email, if false -> return 400
   // mark the entered email as verified, query the userModel for the email
-  // if user is found, return the user
+  // if user is found, create access + refresh tokens and return the user + tokens
   try {
     const { email, otp } = req.body;
 
@@ -77,7 +84,13 @@ const verifyOtpHandler = async (req, res) => {
     }
     const user = await findUser({ email });
     if (user) {
-      return res.status(200).send(user);
+      // create and send access token
+      const accessToken = await signJwt(
+        { ...user.toObject() },
+        { expiresIn: accessTokenTtl },
+      );
+
+      return res.status(200).send({ user, accessToken });
     }
 
     res
