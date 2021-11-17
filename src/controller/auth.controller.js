@@ -9,6 +9,7 @@ const {
   createOtpDocument,
   findOtpDocument,
   updateEmail,
+  removeVerifiedOtp,
 } = require("../service/auth.service");
 const { findUser } = require("../service/user.service");
 const { getOtpExpiry, sendOtpToMail } = require("../utils/auth.utils");
@@ -50,11 +51,14 @@ const generateOtpHandler = async (req, res) => {
   }
 };
 
+// search otp -> if otp is not found in DB -> return 404
+// check if otp.email === email, if false -> return 400
+// mark entered email as verified -> query userModel for input email
+// if user is found -> create access and return (user + token)
+// after successful verification -> remove the otp document from db
+
+// eslint-disable-next-line consistent-return
 const verifyOtpHandler = async (req, res) => {
-  // if otp is not found in DB, return 404
-  // check if otp.email === email, if false -> return 400
-  // mark the entered email as verified, query the userModel for the email
-  // if user is found, create access + refresh tokens and return the user + tokens
   try {
     const { email, otp } = req.body;
 
@@ -70,6 +74,7 @@ const verifyOtpHandler = async (req, res) => {
       });
     }
 
+    // check if otp has expired
     const isValid = await otpDocument.validateOtp();
     if (!isValid) {
       return res.status(400).send({
@@ -82,6 +87,10 @@ const verifyOtpHandler = async (req, res) => {
     if (emailDocument) {
       await updateEmail({ email }, { isVerified: true });
     }
+
+    // remove otp document from db
+    await removeVerifiedOtp({ otp });
+
     const user = await findUser({ email });
     if (user) {
       // create and send access token
@@ -92,7 +101,6 @@ const verifyOtpHandler = async (req, res) => {
 
       return res.status(200).send({ user, accessToken });
     }
-
     res
       .status(200)
       .send({ type: "success", message: "Email verified successfully" });
