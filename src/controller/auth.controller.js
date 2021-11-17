@@ -54,8 +54,8 @@ const verifyOtpHandler = async (req, res) => {
     // find the entered otp from OtpModel
     const otpDocument = await findOtpDocument({ otp });
     if (
-      !otpDocument ||
-      otpDocument.email.toLowerCase() !== email.toLowerCase()
+      !otpDocument
+      || otpDocument.email.toLowerCase() !== email.toLowerCase()
     ) {
       return res.status(404).send({
         type: "error",
@@ -79,6 +79,7 @@ const verifyOtpHandler = async (req, res) => {
     if (user) {
       return res.status(200).send(user);
     }
+
     res
       .status(200)
       .send({ type: "success", message: "Email verified successfully" });
