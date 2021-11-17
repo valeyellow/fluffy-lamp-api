@@ -1,4 +1,6 @@
 const { Router } = require("express");
+
+const auth = require("../middleware/auth");
 const {
   postHealthCheckHandler,
   createPostHandler,
@@ -25,40 +27,40 @@ const router = Router();
 router.get("/api/postHealthCheck", postHealthCheckHandler);
 
 // create new post
-router.post("/api/post", verifyResources(createPostSchema), createPostHandler);
+router.post("/api/post", [auth, verifyResources(createPostSchema)], createPostHandler);
 
 // like/dislike a post
 router.patch(
   "/api/post/:postId/like",
-  verifyResources(updatePostLikeSchema),
+  [auth, verifyResources(updatePostLikeSchema)],
   updatePostHandler,
 );
 
 // delete a post
 router.delete(
   "/api/post/:postId",
-  verifyResources(deletePostSchema),
+  [auth, verifyResources(deletePostSchema)],
   deletePostHandler,
 );
 
 // read a post with postId
 router.get(
   "/api/post/:postId",
-  verifyResources(readPostSchema),
+  [auth, verifyResources(readPostSchema)],
   getPostHandler,
 );
 
 // add comment to a post
 router.post(
   "/api/post/:postId/comment",
-  verifyResources(createCommentSchema),
+  [auth, verifyResources(createCommentSchema)],
   addCommentHandler,
 );
 
 // get comments for a post
 router.get(
   "/api/post/:postId/comment",
-  verifyResources(readCommentSchema),
+  [auth, verifyResources(readCommentSchema)],
   getCommentHandler,
 );
 
