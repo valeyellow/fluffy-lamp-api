@@ -11,7 +11,7 @@ const createPost = async (input) => {
 
 const findPost = async (query) => {
   try {
-    return PostModel.findOne(query);
+    return PostModel.findOne(query).populate("comments");
   } catch (e) {
     throw new Error(e);
   }
