@@ -19,6 +19,7 @@ const createPostHandler = async (req, res) => {
   }
 };
 
+// find the post -> update each field present in req.body -> return the updated user
 const updatePostHandler = async (req, res) => {
   try {
     const { postId } = req.params;
