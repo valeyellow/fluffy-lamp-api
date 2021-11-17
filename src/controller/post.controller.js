@@ -1,3 +1,5 @@
+const logger = require("../utils/logger");
+
 /* eslint-disable consistent-return */
 const {
   createPost,
@@ -16,7 +18,8 @@ const createPostHandler = async (req, res) => {
   try {
     const post = await createPost(req.body);
     res.send(post);
-  } catch (error) {
+  } catch (e) {
+    logger.error(e);
     res
       .status(400)
       .send({ type: "error", message: "Could not create new post" });
@@ -45,6 +48,7 @@ const updatePostHandler = async (req, res) => {
 
     return res.send(updatedPost);
   } catch (e) {
+    logger.error(e);
     res
       .status(500)
       .send({ type: "error", message: e?.message || "Could not update post" });
@@ -62,6 +66,7 @@ const deletePostHandler = async (req, res) => {
     const deletedPost = await deletePost({ _id: postId });
     return res.status(200).send(deletedPost);
   } catch (e) {
+    logger.error(e);
     res
       .status(500)
       .send({ type: "error", message: e?.message || "Could not delete post" });
@@ -77,6 +82,7 @@ const getPostHandler = async (req, res) => {
     }
     return res.status(200).send({ ...post.toObject(), comments: post.comments });
   } catch (e) {
+    logger.error(e);
     res.status(500).send({
       type: "error",
       message: e?.message || "Error fetching post",
@@ -94,6 +100,7 @@ const addCommentHandler = async (req, res) => {
     const comment = await createComment({ ...req.body, post: postId });
     res.status(200).send(comment);
   } catch (e) {
+    logger.error(e);
     res.status(500).send({
       type: "error",
       message: e?.message || "Error fetching post",
@@ -110,6 +117,7 @@ const getCommentHandler = async (req, res) => {
     }
     res.status(200).send({ comments: post.comments });
   } catch (e) {
+    logger.error(e);
     res.status(500).send({
       type: "error",
       message: e?.message || "Error fetching comments",

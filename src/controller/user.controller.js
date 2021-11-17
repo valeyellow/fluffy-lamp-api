@@ -1,5 +1,7 @@
 const dotenv = require("dotenv");
 
+const logger = require("../utils/logger");
+
 const { signJwt } = require("../utils/jwt.utils");
 const { findEmail } = require("../service/auth.service");
 const { createUser } = require("../service/user.service");
@@ -26,11 +28,12 @@ const createUserHandler = async (req, res) => {
     // create and send access token
     const accessToken = await signJwt(
       { ...user.toObject() },
-      { expiresIn: accessTokenTtl },
+      { expiresIn: accessTokenTtl }
     );
     res.status(200).send({ ...user.toObject(), accessToken });
-  } catch (error) {
-    res.status(409).send({ status: "error", message: error });
+  } catch (e) {
+    logger.error(e);
+    res.status(409).send({ status: "error", message: e?.message });
   }
 };
 
