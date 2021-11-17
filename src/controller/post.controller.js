@@ -1,9 +1,12 @@
+/* eslint-disable consistent-return */
 const {
   createPost,
   findPost,
   findAndUpdatePost,
   deletePost,
 } = require("../service/post.service");
+
+const { createComment } = require("../service/comment.service");
 
 const postHealthCheckHandler = async (req, res) => {
   res.send("Hi from post controller");
@@ -21,6 +24,7 @@ const createPostHandler = async (req, res) => {
 };
 
 // find the post -> update each field present in req.body -> return the updated user
+// eslint-disable-next-line consistent-return
 const updatePostHandler = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -56,15 +60,44 @@ const deletePostHandler = async (req, res) => {
     }
 
     const deletedPost = await deletePost({ _id: postId });
-    return (
-      res
-        .status(200)
-        .send(deletedPost)
-    );
+    return res.status(200).send(deletedPost);
   } catch (e) {
     res
       .status(500)
       .send({ type: "error", message: e?.message || "Could not delete post" });
+  }
+};
+
+const getPostHandler = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await findPost({ _id: postId });
+    if (!post) {
+      return res.status(404).send({ type: "error", message: "Post not found" });
+    }
+    return res.status(200).send({ post, comments: post.comments });
+  } catch (e) {
+    res.status(500).send({
+      type: "error",
+      message: e?.message || "Error fetching post",
+    });
+  }
+};
+
+const addCommentHandler = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await findPost({ _id: postId });
+    if (!post) {
+      return res.status(404).send({ type: "error", message: "Post not found" });
+    }
+    const comment = await createComment({ ...req.body, post: postId });
+    res.status(200).send(comment);
+  } catch (e) {
+    res.status(500).send({
+      type: "error",
+      message: e?.message || "Error fetching post",
+    });
   }
 };
 
@@ -73,4 +106,6 @@ module.exports = {
   createPostHandler,
   updatePostHandler,
   deletePostHandler,
+  getPostHandler,
+  addCommentHandler,
 };
