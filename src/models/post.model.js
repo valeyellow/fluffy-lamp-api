@@ -19,6 +19,19 @@ const postSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+postSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "post",
+});
+
+postSchema.post("findOneAndDelete", async (deletedPost) => {
+  console.log(
+    "Inside findOneAndDelete post hook...deletedPost -->",
+    deletedPost
+  );
+});
+
 const PostModel = mongoose.model("Post", postSchema);
 
 module.exports = PostModel;
