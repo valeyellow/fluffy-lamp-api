@@ -1,4 +1,9 @@
+// import external module
 const mongoose = require("mongoose");
+
+// import internal module
+const logger = require("../utils/logger");
+const { deleteCommentByPostId } = require("../service/comment.service");
 
 const postSchema = new mongoose.Schema(
   {
@@ -25,11 +30,14 @@ postSchema.virtual("comments", {
   foreignField: "post",
 });
 
+// when user deletes a post, delete all comments related to this post
 postSchema.post("findOneAndDelete", async (deletedPost) => {
-  console.log(
-    "Inside findOneAndDelete post hook...deletedPost -->",
-    deletedPost
-  );
+  try {
+    // eslint-disable-next-line no-underscore-dangle
+    await deleteCommentByPostId({ post: deletedPost._id });
+  } catch (e) {
+    logger.error(e);
+  }
 });
 
 const PostModel = mongoose.model("Post", postSchema);

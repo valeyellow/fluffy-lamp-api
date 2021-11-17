@@ -10,6 +10,15 @@ const createComment = async (input) => {
   }
 };
 
+const deleteCommentByPostId = async (query) => {
+  try {
+    return CommentModel.deleteMany(query);
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 module.exports = {
   createComment,
+  deleteCommentByPostId,
 };
