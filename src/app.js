@@ -8,6 +8,10 @@ const dotenv = require("dotenv");
 const logger = require("./utils/logger");
 const connect = require("./utils/connect");
 const routes = require("./routes");
+const deserializeUser = require("./middleware/deserializeUser");
+
+// load .env variables into process.env
+dotenv.config();
 
 const app = express();
 
@@ -15,8 +19,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-// load .env variables into process.env
-dotenv.config();
+app.use(deserializeUser);
 
 const port = process.env.PORT || 8080;
 
