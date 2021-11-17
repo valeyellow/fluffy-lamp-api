@@ -6,12 +6,12 @@ dotenv.config();
 const publicKey = process.env.PUBLIC_KEY;
 const privateKey = process.env.PRIVATE_KEY;
 
-export const signJwt = async (payload, options) => jwt.sign(payload, privateKey, {
+const signJwt = async (payload, options) => jwt.sign(payload, privateKey, {
   ...(options && options),
   algorithm: "RS256",
 });
 
-export const verifyJwt = async (token) => {
+const verifyJwt = async (token) => {
   try {
     const { decoded } = jwt.verify(token, publicKey);
     return {
@@ -26,4 +26,9 @@ export const verifyJwt = async (token) => {
       decoded: null,
     };
   }
+};
+
+module.exports = {
+  signJwt,
+  verifyJwt,
 };
