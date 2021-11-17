@@ -6,6 +6,7 @@ const {
   deletePostHandler,
   getPostHandler,
   addCommentHandler,
+  getCommentHandler,
 } = require("../controller/post.controller");
 const {
   createPostSchema,
@@ -16,6 +17,7 @@ const {
 const verifyResources = require("../middleware/verifyResources");
 const {
   createCommentSchema,
+  readCommentSchema,
 } = require("../schema/comment.schema");
 
 const router = Router();
@@ -51,6 +53,13 @@ router.post(
   "/api/post/:postId/comment",
   verifyResources(createCommentSchema),
   addCommentHandler,
+);
+
+// get comments for a post
+router.get(
+  "/api/post/:postId/comment",
+  verifyResources(readCommentSchema),
+  getCommentHandler,
 );
 
 module.exports = router;

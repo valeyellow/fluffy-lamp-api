@@ -101,6 +101,22 @@ const addCommentHandler = async (req, res) => {
   }
 };
 
+const getCommentHandler = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await findPost({ _id: postId });
+    if (!post) {
+      return res.status(404).send({ type: "error", message: "Post not found" });
+    }
+    res.status(200).send({ comments: post.comments });
+  } catch (e) {
+    res.status(500).send({
+      type: "error",
+      message: e?.message || "Error fetching comments",
+    });
+  }
+};
+
 module.exports = {
   postHealthCheckHandler,
   createPostHandler,
@@ -108,4 +124,5 @@ module.exports = {
   deletePostHandler,
   getPostHandler,
   addCommentHandler,
+  getCommentHandler,
 };
