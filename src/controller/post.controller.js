@@ -75,7 +75,7 @@ const getPostHandler = async (req, res) => {
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
-    return res.status(200).send({ post, comments: post.comments });
+    return res.status(200).send({ ...post.toObject(), comments: post.comments });
   } catch (e) {
     res.status(500).send({
       type: "error",
