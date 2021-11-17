@@ -2,6 +2,7 @@ const {
   createPost,
   findPost,
   findAndUpdatePost,
+  deletePost,
 } = require("../service/post.service");
 
 const postHealthCheckHandler = async (req, res) => {
@@ -46,8 +47,30 @@ const updatePostHandler = async (req, res) => {
   }
 };
 
+const deletePostHandler = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await findPost({ _id: postId });
+    if (!post) {
+      return res.status(404).send({ type: "error", message: "Post not found" });
+    }
+
+    const deletedPost = await deletePost({ _id: postId });
+    return (
+      res
+        .status(200)
+        .send(deletedPost)
+    );
+  } catch (e) {
+    res
+      .status(500)
+      .send({ type: "error", message: e?.message || "Could not delete post" });
+  }
+};
+
 module.exports = {
   postHealthCheckHandler,
   createPostHandler,
   updatePostHandler,
+  deletePostHandler,
 };

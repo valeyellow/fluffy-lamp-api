@@ -25,8 +25,17 @@ const findAndUpdatePost = async (query, update, options) => {
   }
 };
 
+const deletePost = async (query) => {
+  try {
+    return PostModel.findByIdAndDelete(query);
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 module.exports = {
   createPost,
   findPost,
   findAndUpdatePost,
+  deletePost,
 };
