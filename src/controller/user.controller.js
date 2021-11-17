@@ -14,6 +14,7 @@ const userHealthCheckHandler = async (req, res) => {
   res.send("Hi from user controller");
 };
 
+// eslint-disable-next-line consistent-return
 const createUserHandler = async (req, res) => {
   try {
     const { email } = req.body;
@@ -28,7 +29,7 @@ const createUserHandler = async (req, res) => {
     // create and send access token
     const accessToken = await signJwt(
       { ...user.toObject() },
-      { expiresIn: accessTokenTtl }
+      { expiresIn: accessTokenTtl },
     );
     res.status(200).send({ ...user.toObject(), accessToken });
   } catch (e) {
