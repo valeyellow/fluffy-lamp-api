@@ -31,9 +31,18 @@ const createPostHandler = async (req, res) => {
 const updatePostHandler = async (req, res) => {
   try {
     const { postId } = req.params;
+    const { user } = res.locals;
     const post = await findPost({ _id: postId });
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
+    }
+
+    // eslint-disable-next-line no-underscore-dangle
+    if (String(post.user) !== String(user._id)) {
+      return res.status(401).send({
+        type: "error",
+        message: "You are not authorized to modify this resource",
+      });
     }
 
     const updatedKeys = Object.keys(req.body);
@@ -46,7 +55,7 @@ const updatePostHandler = async (req, res) => {
       new: true,
     });
 
-    return res.send(updatedPost);
+    res.send(updatedPost);
   } catch (e) {
     logger.error(e);
     res
@@ -57,14 +66,23 @@ const updatePostHandler = async (req, res) => {
 
 const deletePostHandler = async (req, res) => {
   try {
+    const { user } = res.locals;
     const { postId } = req.params;
     const post = await findPost({ _id: postId });
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
 
+    // eslint-disable-next-line no-underscore-dangle
+    if (String(post.user) !== String(user._id)) {
+      return res.status(401).send({
+        type: "error",
+        message: "You are not authorized to modify this resource",
+      });
+    }
+
     const deletedPost = await deletePost({ _id: postId });
-    return res.status(200).send(deletedPost);
+    res.status(200).send(deletedPost);
   } catch (e) {
     logger.error(e);
     res
@@ -75,12 +93,22 @@ const deletePostHandler = async (req, res) => {
 
 const getPostHandler = async (req, res) => {
   try {
+    const { user } = res.locals;
     const { postId } = req.params;
     const post = await findPost({ _id: postId });
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
-    return res.status(200).send({ ...post.toObject(), comments: post.comments });
+
+    // eslint-disable-next-line no-underscore-dangle
+    if (String(post.user) !== String(user._id)) {
+      return res.status(401).send({
+        type: "error",
+        message: "You are not authorized to access this resource",
+      });
+    }
+
+    res.status(200).send({ ...post.toObject(), comments: post.comments });
   } catch (e) {
     logger.error(e);
     res.status(500).send({
@@ -92,11 +120,21 @@ const getPostHandler = async (req, res) => {
 
 const addCommentHandler = async (req, res) => {
   try {
+    const { user } = res.locals;
     const { postId } = req.params;
     const post = await findPost({ _id: postId });
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
+
+    // eslint-disable-next-line no-underscore-dangle
+    if (String(post.user) !== String(user._id)) {
+      return res.status(401).send({
+        type: "error",
+        message: "You are not authorized to access this resource",
+      });
+    }
+
     const comment = await createComment({ ...req.body, post: postId });
     res.status(200).send(comment);
   } catch (e) {
@@ -110,11 +148,21 @@ const addCommentHandler = async (req, res) => {
 
 const getCommentHandler = async (req, res) => {
   try {
+    const { user } = res.locals;
     const { postId } = req.params;
     const post = await findPost({ _id: postId });
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
+
+    // eslint-disable-next-line no-underscore-dangle
+    if (String(post.user) !== String(user._id)) {
+      return res.status(401).send({
+        type: "error",
+        message: "You are not authorized to access this resource",
+      });
+    }
+
     res.status(200).send({ comments: post.comments });
   } catch (e) {
     logger.error(e);
