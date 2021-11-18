@@ -31,7 +31,7 @@ app.listen(port, async () => {
   logger.info(`App is listening on port ${port}`);
 
   // connect to db
-  await connect();
+  // await connect();
 
   routes(app);
 });
