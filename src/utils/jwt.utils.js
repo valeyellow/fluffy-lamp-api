@@ -13,7 +13,7 @@ const signJwt = async (payload, options) => jwt.sign(payload, privateKey, {
 
 const verifyJwt = async (token) => {
   try {
-    const { decoded } = jwt.verify(token, publicKey);
+    const decoded = jwt.verify(token, publicKey);
     return {
       isValid: true,
       expired: false,
