@@ -34,7 +34,7 @@ const createUserHandler = async (req, res) => {
     res.status(200).send({ ...user.toObject(), accessToken });
   } catch (e) {
     logger.error(e);
-    res.status(409).send({ status: "error", message: e?.message });
+    res.status(409).send({ status: "error", message: "User already exists" });
   }
 };
 
