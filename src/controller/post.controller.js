@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const logger = require("../utils/logger");
 
 /* eslint-disable consistent-return */
@@ -16,8 +17,10 @@ const postHealthCheckHandler = async (req, res) => {
 
 const createPostHandler = async (req, res) => {
   try {
-    const post = await createPost(req.body);
-    res.send(post);
+    const { user } = res.locals;
+    const post = await createPost({ ...req.body, user: user._id });
+
+    res.send({ ...post.toObject(), user: user._id });
   } catch (e) {
     logger.error(e);
     res
@@ -37,7 +40,6 @@ const updatePostHandler = async (req, res) => {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     if (String(post.user) !== String(user._id)) {
       return res.status(401).send({
         type: "error",
@@ -73,7 +75,6 @@ const deletePostHandler = async (req, res) => {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     if (String(post.user) !== String(user._id)) {
       return res.status(401).send({
         type: "error",
@@ -126,8 +127,6 @@ const addCommentHandler = async (req, res) => {
     if (!post) {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
-
-    // eslint-disable-next-line no-underscore-dangle
     if (String(post.user) !== String(user._id)) {
       return res.status(401).send({
         type: "error",
@@ -155,7 +154,6 @@ const getCommentHandler = async (req, res) => {
       return res.status(404).send({ type: "error", message: "Post not found" });
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     if (String(post.user) !== String(user._id)) {
       return res.status(401).send({
         type: "error",
