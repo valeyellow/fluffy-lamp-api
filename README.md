@@ -14,6 +14,8 @@ npm install
 Add a .env file
 
 # .env.sample
+
+```bash
 NODE_ENV=<production|development>
 PORT=<open-port>
 API_KEY=<github-key>
@@ -26,6 +28,7 @@ EMAIL_PASSWORD=<password-for-above-email>
 OAUTH_CLIENTID=<generate-this-using-google-oauth>
 OAUTH_CLIENT_SECRET=<generate-this-using-google-oauth>
 OAUTH_REFRESH_TOKEN=<generate-this-using-google-oauth>
+```
 
 Learn how to setup nodemailer with gmail using OAuth https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
 
