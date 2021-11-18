@@ -11,6 +11,24 @@ cd fluffy-lamp-api
 npm install
 ```
 
+Add a .env file
+
+# .env.sample
+NODE_ENV=<production|development>
+PORT=<open-port>
+API_KEY=<github-key>
+DB_URI=<local-mongodb-uri>
+PUBLIC_KEY=<public-rsa-key>
+PRIVATE_KEY=<public-rsa-key>
+ACCESS_TOKEN_TTL=<a-string-depicting-time>
+EMAIL_USERNAME=<email-address-to-be-used-by-nodemailer>
+EMAIL_PASSWORD=<password>
+OAUTH_CLIENTID=<generate-this-from-gcp>
+OAUTH_CLIENT_SECRET=<generate-this-from-gcp>
+OAUTH_REFRESH_TOKEN=<generate-this-from-gcp>
+
+Learn how to setup nodemailer with gmail using OAuth https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
+
 ## Run the server
 
 To start the express server, run the following
@@ -18,6 +36,16 @@ To start the express server, run the following
 ```bash
 npm run start
 ```
+
+## Test the connection locally
+
+To test if the app is running, run the following
+
+```bash
+curl http://localhost:<PORT>/healthcheck
+```
+
+returns "Connection successful!" upon successful connection
 
 ## Data flow
 
