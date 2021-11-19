@@ -14,6 +14,10 @@ Collection of APIs for a fictional social media app.
 - Read comments for a post by postId
 - Delete a post
 
+## Postman collection
+
+The postman collection for the APIs can be found [here](fluffy-lamp-api.postman_collection.json)
+
 ## Setup instructions
 
 Clone the repo and install the dependencies.
