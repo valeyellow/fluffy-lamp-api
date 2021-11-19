@@ -1,3 +1,20 @@
+## fluffy-lamp-api
+
+Collection of APIs for a fictional social media org.
+
+## Endpoints
+
+- Enter email and generate OTP
+- Verify email and OTP combination
+- Register a user
+- Add a post
+- Update like/dislike for a post
+- Add comments to a post
+- Read a post by postId
+- Read comments for a post by postId
+- Delete a post
+
+
 ## Setup instructions
 
 Clone the repo and install the dependencies.
@@ -11,7 +28,7 @@ cd fluffy-lamp-api
 npm install
 ```
 
-Add a .env file
+Add a .env file (sample .env file with required variables is added to the repo)
 
 Setup OAuth on your gmail
 
@@ -34,6 +51,14 @@ curl http://localhost:<PORT>/healthcheck
 ```
 
 returns "Connection successful!" upon successful connection
+
+## Deployment
+
+App is running on https://fluffy-lamp.herokuapp.com/
+
+The app is deployed on Heroku platform, and the database is hosted on MongoDB Atlas
+
+Read more about deploying apps to Heroku https://devcenter.heroku.com/categories/deployment
 
 ## Data flow
 
