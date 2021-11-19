@@ -1,6 +1,6 @@
 ## fluffy-lamp-api
 
-Collection of APIs for a fictional social media org.
+Collection of APIs for a fictional social media app.
 
 ## Endpoints
 
