@@ -14,7 +14,6 @@ Collection of APIs for a fictional social media app.
 - Read comments for a post by postId
 - Delete a post
 
-
 ## Setup instructions
 
 Clone the repo and install the dependencies.
@@ -62,7 +61,7 @@ Read more about deploying apps to Heroku https://devcenter.heroku.com/categories
 
 ## Data flow
 
-![](./diagrams/data-flow.png)
+![](./diagrams/data-flow-updated.png)
 
 ## Sign up flow
 
