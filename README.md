@@ -39,6 +39,12 @@ Learn how to setup nodemailer with gmail using OAuth https://www.freecodecamp.or
 
 ## Run the server
 
+To run the express server in development mode, run the following
+
+```bash
+npm run dev
+```
+
 To start the express server, run the following
 
 ```bash
