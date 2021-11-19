@@ -65,7 +65,7 @@ Read more about deploying apps to Heroku https://devcenter.heroku.com/categories
 
 ## Sign up flow
 
-![](./diagrams/sign-up-flow.png)
+![](./diagrams/signup-flow-updated.png)
 
 ## Verify OTP flow
 
