@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const publicKey = process.env.PUBLIC_KEY;
-const privateKey = process.env.PRIVATE_KEY;
+const publicKey = process.env.PUBLIC_KEYY.replace(/\\n/gm, "\n");
+const privateKey = process.env.PRIVATE_KEY.replace(/\\n/gm, "\n");
 
 const signJwt = async (payload, options) => jwt.sign(payload, privateKey, {
   ...(options && options),
