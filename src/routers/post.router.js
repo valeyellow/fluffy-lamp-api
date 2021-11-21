@@ -24,10 +24,12 @@ const {
 
 const router = Router();
 
-router.get("/api/postHealthCheck", postHealthCheckHandler);
-
 // create new post
-router.post("/api/post", [auth, verifyResources(createPostSchema)], createPostHandler);
+router.post(
+  "/api/post",
+  [auth, verifyResources(createPostSchema)],
+  createPostHandler
+);
 
 // like/dislike a post
 router.patch(
