@@ -1,21 +1,20 @@
 // import external modules
-const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 
 // import internal modules
+const app = require("./utils/express.utils");
 const logger = require("./utils/logger");
 const connect = require("./utils/connect");
 const routes = require("./routes");
 const deserializeUser = require("./middleware/deserializeUser");
 
+const swaggerDoc = require("./utils/swagger.utils");
+
 // load .env variables into process.env
 dotenv.config();
 
-const app = express();
-
-app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
@@ -34,4 +33,6 @@ app.listen(port, async () => {
   await connect();
 
   routes(app);
+
+  swaggerDoc(port);
 });
