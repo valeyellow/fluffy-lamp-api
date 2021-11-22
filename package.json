@@ -31,6 +31,8 @@
     "otp-generator": "^3.0.0",
     "pino": "^7.2.0",
     "pino-pretty": "^7.2.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
     "zod": "^3.11.6"
   },
   "devDependencies": {
