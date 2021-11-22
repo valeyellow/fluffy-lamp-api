@@ -22,6 +22,18 @@ app.use(deserializeUser);
 
 const port = process.env.PORT || 8080;
 
+/**
+ * @openapi
+ * /healthcheck:
+ *  get:
+ *     tags:
+ *     - Healthcheck
+ *     summary: Responds if the app is up and running
+ *     description: Responds if the app is up and running
+ *     responses:
+ *       200:
+ *         description: App is running
+ */
 app.get("/healthcheck", async (req, res) => {
   res.send("Connection successful!");
 });
