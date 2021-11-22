@@ -1,5 +1,36 @@
 const { object, string, boolean } = require("zod");
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreatePostInput:
+ *      type: object
+ *      required:
+ *        - postContent
+ *      optional:
+ *        - isLiked
+ *      properties:
+ *        postContent:
+ *          type: string
+ *          default: Hi this is a sample post
+ *        isLiked:
+ *          type: boolean
+ *          default: false
+ *    CreatePostResponse:
+ *      type: object
+ *      properties:
+ *        type:
+ *          postContent: string
+ *        isLiked:
+ *          type: boolean
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ */
 const createPostPayload = {
   body: object({
     postContent: string({
@@ -9,6 +40,32 @@ const createPostPayload = {
   }),
 };
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    UpdatePostInput:
+ *      type: object
+ *      required:
+ *        - isLiked
+ *      properties:
+ *        isLiked:
+ *          type: boolean
+ *          default: false
+ *    CreatePostResponse:
+ *      type: object
+ *      properties:
+ *        postContent:
+ *          type: string
+ *        isLiked:
+ *          type: boolean
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ */
 const updatePostLikePayload = {
   body: object({
     isLiked: boolean({ required_error: "IsLiked is a required field" }),
