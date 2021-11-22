@@ -18,10 +18,22 @@ const router = Router();
  *  post:
  *     tags:
  *     - Authentication
- *     description: Generates OTP to verify input email
+ *     summary: Generates OTP to verify user email
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *        schema:
+ *            $ref: '#/components/schemas/GenerateOtpInput'
  *     responses:
  *       200:
- *         description: App is up and running
+ *         description: Success
+ *         content:
+ *          application/json:
+ *          schema:
+ *              $ref: '#/components/schemas/GenerateOtpResponse'
+ *       500:
+ *        description: Internal server error
  */
 router.post(
   "/api/auth/generateOtp",
